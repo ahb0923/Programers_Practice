@@ -1,0 +1,61 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+
+using namespace std;
+
+vector<string> solution(vector<string> record) {
+    vector<string> answer;
+    map<string, string> userinfo;
+    
+    vector<string> data(3, "");
+    int index=0;
+    
+    for(auto& r : record){
+        for(int j=index; j<r.size(); j++){
+            if(r[j]==' ') {index++; continue;}
+            data[index]+=r[j];
+        }
+        if(data[0] == "Enter"){
+            if(userinfo.find(data[1])==userinfo.end()){
+                userinfo.insert(make_pair(data[1], data[2]));
+            }
+            else{
+                userinfo[data[1]] = data[2];
+            }
+        }
+        else if(data[0] == "Change"){
+            userinfo[data[1]] = data[2];
+        }
+
+        // 초기화 파트
+        //cout << data[0] <<" / " << data[1] <<" / " << data[2] <<endl;
+        index = 0;
+        data[0] =""; data[1] =""; data[2]  =""; 
+    }
+    
+    for(auto& r : record){
+        for(int j=index; j<r.size(); j++){
+            if(r[j]==' ') {index++; continue;}
+            data[index]+=r[j];
+        }
+        string str = userinfo[data[1]]+"님이 ";
+        if(data[0] == "Enter"){
+            str+="들어왔습니다.";
+            answer.push_back(str);
+        }
+        else if(data[0] == "Leave"){
+            str+="나갔습니다.";
+            answer.push_back(str);
+        }
+
+        // 초기화 파트
+        //cout << data[0] <<" / " << data[1] <<" / " << data[2] <<endl;
+        index = 0;
+        data[0] =""; data[1] =""; data[2]  =""; 
+    }
+    
+    
+    return answer;
+}
