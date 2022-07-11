@@ -12,7 +12,7 @@ vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2)
     // 첫번째 행렬의 1행부터 아래로
     for(int i=0; i<col;i++){
         // 두번째 행렬의 1렬부터 왼쪽으로
-        for(int j=0; j<row; j++){
+        for(int j=0; j<arr2[0].size(); j++){
             int numtemp = 0;
             // 첫번째 인자부터 곱연산
             for(int k=0; k<row; k++){
@@ -23,6 +23,5 @@ vector<vector<int>> solution(vector<vector<int>> arr1, vector<vector<int>> arr2)
         answer.push_back(temp);
         temp.clear();
     }
-    
     return answer;
 }
