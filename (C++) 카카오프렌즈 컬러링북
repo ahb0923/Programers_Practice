@@ -1,0 +1,50 @@
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int count;
+int col_max;
+int row_max;
+vector<vector<bool>> useCheck;
+void CountArea(vector<vector<int>> picture, int col, int row, int num){
+    if(useCheck[col][row]) return;
+    if (picture[col][row] == num){ 
+        ::count++;
+        useCheck[col][row] = true;
+        if (row != row_max-1){CountArea(picture, col, row+1, picture[col][row]);}
+        if (col != col_max-1){CountArea(picture, col+1, row, picture[col][row]);}
+        if (row != 0){CountArea(picture, col, row-1, picture[col][row]);}
+        if (col != 0){CountArea(picture, col-1, row, picture[col][row]);}
+    }
+    else{
+        return;
+    }
+}
+
+vector<int> solution(int m, int n, vector<vector<int>> picture) {
+    ::count = 0;
+    ::col_max = m;
+    ::row_max = n;
+    vector<int> size;
+    vector<bool> vec(n, false);
+    useCheck.assign(m, vec);
+    
+    for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+            if (useCheck[i][j]){ continue; }
+            else if(picture[i][j]!=0) { 
+                CountArea(picture, i, j, picture[i][j]);            
+                size.push_back(::count);
+            }
+            ::count = 0;
+        }
+    }
+    sort(size.begin(), size.end(), greater<int>());
+
+    vector<int> answer(2);
+    answer[0] = size.size();
+    answer[1] = size[0];
+    return answer;
+}
